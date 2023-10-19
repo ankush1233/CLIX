@@ -6,6 +6,7 @@
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
+#include <vector>
 
 #ifndef _WIN32 //For Windows Like Systems
 #include <dirent.h>
@@ -21,4 +22,5 @@
 
 #endif
 
-void ChangeDirectory(const char*);
+void MoveToDirectory(string);
+#endif
