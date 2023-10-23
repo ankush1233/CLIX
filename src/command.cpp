@@ -3,6 +3,9 @@
 #include <string>
 using namespace std;
 
+//char PathBuffer[MAX_PATH_SIZE];
+char currentPath[MAX_PATH_SIZE];
+
 
 void changeDirectory(const  char* path){
 
@@ -17,60 +20,58 @@ void MoveToDirectory(string UserCommand){
 		size_t pos = UserCommand.find("moveto-");
 			
 		if(pos != string :: npos){
-			char currentPath[MAX_PATH_SIZE];	
+			//char currentPath[MAX_PATH_SIZE];	
 				
-			if(GetCurrentDir(currentPath, sizeof(currentPath)) != nullptr){
+			/*if(GetCurrentDir(currentPath, sizeof(currentPath)) != nullptr){
 				cout << "Current directory: " << currentPath << '\n';
-			}
+			}*/
 				
 			string dir = UserCommand.substr(pos + 7);
 			string newdir = std::string(currentPath) + '\\' + dir; 
 				
 	 		const char* newDirectory = newdir.c_str();
-	    		changeDirectory(newDirectory);
+	    	changeDirectory(newDirectory);
+
 
 			if (GetCurrentDir(currentPath, sizeof(currentPath)) != nullptr) {
-	    		std::cout << "Current directory: " << currentPath << std::endl;
+	    			std::cout << "Current directory: " << currentPath << std::endl;
 			}	
 
-	    		//open("ankus.txt", O_RDWR | O_CREAT, 0644);
+	    	//open("ankus.txt", O_RDWR | O_CREAT, 0644);
 				
 		}
 	return;
 }
 
-string BackToDirectory(char* currentPath) {
-	char PathBuffer[MAX_PATH_SIZE];
-	string StringConversionOfCurrentPath(currentPath);
-	size_t LastBackSlash = StringConversionOfCurrentPath.find_last_of('\\');
+void BackToDirectory() {
+		
+		GetCurrentDir(currentPath, sizeof(currentPath));
 
-    	if (LastBackSlash != string::npos) {
-        	string newPath = StringConversionOfCurrentPath.substr(0, LastBackSlash);
-        	const char* newDirectory = newPath.c_str();
+		string StringConversionOfPath(currentPath);
+		size_t LastBackSlash = StringConversionOfPath.find_last_of('\\');
 
-        	changeDirectory(newDirectory);
+		if (LastBackSlash != string::npos) {
+    		string newPath = StringConversionOfPath.substr(0, LastBackSlash);
+    		const char* newDirectory = newPath.c_str();
 
-        if (GetCurrentDir(PathBuffer, sizeof(PathBuffer)) != nullptr) {
-            	cout << "After back: " << PathBuffer << '\n';
-        }
+    		changeDirectory(newDirectory);
+    		//char PathBuffer[MAX_PATH_SIZE];
 
-        // Update the currentPath variable
-        strcpy(currentPath, PathBuffer);
-    }
+    		if (GetCurrentDir(currentPath, sizeof(currentPath)) != nullptr) {
+        		cout << "After back: " << currentPath << '\n';
+    		}
 
-    // Return the new path
-    //return string(PathBuffer);
+		}
+    	return ;
 }
 
 
-void NowDir(string& UserCommand){
+void NowDir(){
 
-	char currentPath[MAX_PATH_SIZE];
-	if(UserCommand == "nowdir-"){
 		if(GetCurrentDir(currentPath, sizeof(currentPath)) != nullptr){
 			cout << "Current directory: " << currentPath << '\n';
 		}
-	}
+
 	return ;
 }
 

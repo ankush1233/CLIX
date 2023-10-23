@@ -6,7 +6,6 @@
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
-
 using namespace std;
 
 #ifndef _WIN32 //For Windows Like Systems
@@ -25,8 +24,9 @@ using namespace std;
 
 void MoveToDirectory(string);
 void changeDirectory(const char*);
-void NowDir(string&);
-string BackToDirectory(char*);
+void NowDir();
+void BackToDirectory();
+
 
 #endif
 
