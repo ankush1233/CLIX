@@ -40,20 +40,18 @@ void MoveToDirectory(string UserCommand){
 }
 
 string BackToDirectory(char* currentPath) {
-    char PathBuffer[MAX_PATH_SIZE];
+	char PathBuffer[MAX_PATH_SIZE];
+	string StringConversionOfCurrentPath(currentPath);
+	size_t LastBackSlash = StringConversionOfCurrentPath.find_last_of('\\');
 
-    string StringConversionOfCurrentPath(currentPath);
+    	if (LastBackSlash != string::npos) {
+        	string newPath = StringConversionOfCurrentPath.substr(0, LastBackSlash);
+        	const char* newDirectory = newPath.c_str();
 
-    size_t LastBackSlash = StringConversionOfCurrentPath.find_last_of('\\');
-
-    if (LastBackSlash != string::npos) {
-        string newPath = StringConversionOfCurrentPath.substr(0, LastBackSlash);
-        const char* newDirectory = newPath.c_str();
-
-        changeDirectory(newDirectory);
+        	changeDirectory(newDirectory);
 
         if (GetCurrentDir(PathBuffer, sizeof(PathBuffer)) != nullptr) {
-            cout << "After back: " << PathBuffer << '\n';
+            	cout << "After back: " << PathBuffer << '\n';
         }
 
         // Update the currentPath variable
