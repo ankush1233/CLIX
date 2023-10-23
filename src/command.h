@@ -1,12 +1,13 @@
-#ifndef _MOVETO_H
-#define _MOVETO_H
+#ifndef _COMMAND_H
+#define _COMMAND_H
 
 #include <string>
 #include <fcntl.h>
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
-#include <vector>
+
+using namespace std;
 
 #ifndef _WIN32 //For Windows Like Systems
 #include <dirent.h>
@@ -23,4 +24,9 @@
 #endif
 
 void MoveToDirectory(string);
+void changeDirectory(const char*);
+void NowDir(string&);
+string BackToDirectory(char*);
+
 #endif
+
