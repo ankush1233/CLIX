@@ -14,6 +14,8 @@
 #include <chrono>
 #include <thread>
 #include <sys/stat.h>
+#include <cctype>
+#include <algorithm>
 
 using namespace std;
 
@@ -38,5 +40,6 @@ void ReadDirectory();
 void listOfFilesAndDirectories(const char*, vector<string>&, vector<string>&, vector<string>&);
 void FindFile(string);
 bool isDirectory(const char*);
+void DiskConfiguration();
 #endif
 

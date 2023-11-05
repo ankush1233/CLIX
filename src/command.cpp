@@ -70,7 +70,7 @@ void changeDirectory(const  char* path){
 
 void MoveToDirectory(string UserCommand){
 	
-	size_t pos = UserCommand.find("moveto-");
+	size_t pos = UserCommand.find("moveto ");
 		
 	if(pos != string :: npos){
 
@@ -100,7 +100,6 @@ void BackToDirectory() {
 		const char* newDirectory = newPath.c_str();
 
 		changeDirectory(newDirectory);
-		//char PathBuffer[MAX_PATH_SIZE];
 
 		if (GetCurrentDir(currentPath, sizeof(currentPath)) != nullptr) {
     		cout << "After back: " << currentPath << '\n';
@@ -119,7 +118,7 @@ void NowDir(){
 }
 
 void MakeFile(string UserCommand){
-	size_t pos = UserCommand.find("mkfile-");
+	size_t pos = UserCommand.find("mkfile ");
 
 	if(pos != string :: npos){
 		
@@ -165,32 +164,8 @@ void ReadDirectory(){
 	return;
 }	
 
-// void FindFile(string UserCommand){
-// 	size_t pos = UserCommand.find("find-");
-// 	struct stat fileStat;
-// 	const char* filenameforsize;
-
-// 	if(pos != string :: npos){
-// 		string f_name = UserCommand.substr(pos + 5);
-// 		cout << "Number of files : " << file_names.size() << '\n';
-
-// 		for(auto i = 0; i<file_names.size(); i++){
-// 			if((f_name == file_names[i])){
-// 				f_name = file_names[i];
-// 				filenameforsize = f_name.c_str();
-
-// 				if(stat(filenameforsize, &fileStat) == 0){
-// 					cout << "File found : " << f_name << " Size" << fileStat.st_size << "bytes" <<'\n';
-// 				}
-// 			}
-
-// 		}
-// 	}
-// 	return;
-// }
-
 void FindFile(string UserCommand) {
-    size_t pos = UserCommand.find("find-");
+    size_t pos = UserCommand.find("find ");
     struct stat fileStat;
     string tab = " ";
     string totalTabsize = " ";
@@ -206,13 +181,53 @@ void FindFile(string UserCommand) {
         for (const string& file : files) {
             // Extract the filename from the full path
             size_t lastSlashPos = file.find_last_of("/\\");
+
             if (lastSlashPos != string::npos) {
                 string filename = file.substr(lastSlashPos + 1);
-                if (filename == f_name) {
+                if (f_name == filename) {
                     if (stat(file.c_str(), &fileStat) == 0) 
                         cout << filename << "\t" << fileStat.st_size << " bytes" << '\n'; 
                 }
             }
         }
     }
+    return;
+}
+
+void DiskConfiguration(){
+
+	GetCurrentDir(currentPath, sizeof(currentPath));
+	string DiskPath = string(currentPath);
+	string Disk = DiskPath.substr(0, 3);
+	const char* Drive = Disk.c_str();
+	DWORD sectorsPerCluster, bytesPerSector, freeClusters, totalClusters;
+	bool check;
+	check = GetDiskFreeSpaceA(Drive, &sectorsPerCluster, &bytesPerSector, &freeClusters, &totalClusters);
+	if (check) {
+		ULONGLONG freeSpaceBytes = (ULONGLONG)freeClusters * sectorsPerCluster * bytesPerSector;
+		ULONGLONG totalSpaceBytes = (ULONGLONG)totalClusters * sectorsPerCluster * bytesPerSector;
+		double gigabyte = 1024 * 1024 * 1024; // 1 GB is 1024 MB, 1 MB is 1024 KB, 1 KB is 1024 bytes
+
+		double freeSpaceGB = (double)freeSpaceBytes / gigabyte;
+		double totalSpaceGB = (double)totalSpaceBytes / gigabyte;
+
+		cout << "Total space on " << Drive << "  " << totalSpaceGB << '\n';
+		cout << "Free space on " << Drive  << "   " << freeSpaceGB << '\n';
+
+		double disk_percentage = ((freeSpaceGB) / (totalSpaceGB)) * 100;
+		std::cout << "Percentage Used :   " <<disk_percentage << "%" <<'\n';
+		int bar_size = (40*(disk_percentage))/100;
+
+		std::cout << Drive;
+		std::cout << "[";
+		for (auto i = 0; i < (40 - bar_size); i++) {
+			std::cout << "#";
+		}
+		for (auto i = 0; i < bar_size; i++) {
+			std::cout << ".";
+		}
+		std::cout << "]";
+	}
+	cout << '\n';
+	return;
 }
