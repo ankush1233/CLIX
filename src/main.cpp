@@ -61,7 +61,7 @@ int main(){
 				cout << '\n';
 			}
 
-			if(UserCommand == "diskconfig"){
+			if(UserCommand == "driveconfig"){
 				DiskConfiguration();
 				cout << '\n';
 			}

@@ -211,8 +211,8 @@ void DiskConfiguration(){
 		double freeSpaceGB = (double)freeSpaceBytes / gigabyte;
 		double totalSpaceGB = (double)totalSpaceBytes / gigabyte;
 
-		cout << "Total space on " << Drive << "  " << totalSpaceGB << '\n';
-		cout << "Free space on " << Drive  << "   " << freeSpaceGB << '\n';
+		cout << "Total space on " << Drive << "  " << totalSpaceGB << "GB" << '\n';
+		cout << "Free space on " << Drive  << "   " << freeSpaceGB << "GB" << '\n';
 
 		double disk_percentage = ((freeSpaceGB) / (totalSpaceGB)) * 100;
 		std::cout << "Percentage Used :   " <<disk_percentage << "%" <<'\n';
