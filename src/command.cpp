@@ -192,20 +192,25 @@ void ReadDirectory(){
 void FindFile(string UserCommand) {
     size_t pos = UserCommand.find("find-");
     struct stat fileStat;
-
+    string tab = " ";
+    string totalTabsize = " ";
     if (pos != string::npos) {
         string f_name = UserCommand.substr(pos + 5);
-        cout << "Number of files: " << file_names.size() << '\n';
 
+        for(auto i = 0; i<f_name.size(); i++){
+        	totalTabsize = totalTabsize + tab;
+        }
+
+        cout << "Number of files: " << file_names.size() << '\n';
+        cout << "[FILE]" << totalTabsize << " [SIZE]" << "\n";
         for (const string& file : files) {
             // Extract the filename from the full path
             size_t lastSlashPos = file.find_last_of("/\\");
             if (lastSlashPos != string::npos) {
                 string filename = file.substr(lastSlashPos + 1);
                 if (filename == f_name) {
-                    if (stat(file.c_str(), &fileStat) == 0) {
-                        cout << "File found: " << filename << " [SIZE] " << fileStat.st_size << " bytes" << '\n';
-                    }
+                    if (stat(file.c_str(), &fileStat) == 0) 
+                        cout << filename << "\t" << fileStat.st_size << " bytes" << '\n'; 
                 }
             }
         }

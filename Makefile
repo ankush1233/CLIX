@@ -16,7 +16,7 @@ build_dir:
 	mkdir -p $(BUILD_DIR)
 
 run: $(OBJ_FILES)
-	$(CC) $(CFLAGS) $^ -o $(BUILD_DIR)/your_program.exe
+	$(CC) $(CFLAGS) $^ -o $(BUILD_DIR)/myprogram.exe
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
