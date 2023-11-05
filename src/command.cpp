@@ -1,5 +1,9 @@
 #include "command.h"
 #include <iostream>
+#include <sys/stat.h>  // For stat() function
+#ifdef _WIN32
+#include <windows.h>  // For Windows-specific functions
+#endif
 
 
 using namespace std;
@@ -13,6 +17,13 @@ vector<string> files;
 // 	return;
 // }
 
+bool isDirectory(const char* path) {
+    struct stat statbuf;
+    if (stat(path, &statbuf) != 0) {
+        return false;  // Unable to get file info, assume it's not a directory
+    }
+    return S_ISDIR(statbuf.st_mode) != 0;
+}
 
 void listOfFilesAndDirectories(const char* basePath, vector<std::string>& directories, vector<std::string>& files, vector<string>& file_names) {
     // Open the directory
@@ -30,7 +41,7 @@ void listOfFilesAndDirectories(const char* basePath, vector<std::string>& direct
 			// Construct the full path for the current item
 			std::string fullPath = std::string(basePath) + "/" + std::string(entry->d_name);
 
-			if (entry->d_type == DT_DIR) {
+			if (isDirectory(fullPath.c_str())) {
 				// It's a directory, so add it to the directories vector and recurse into it
 				directories.push_back(fullPath);
 				listOfFilesAndDirectories(fullPath.c_str(), directories, files, file_names);

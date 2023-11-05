@@ -18,7 +18,6 @@
 using namespace std;
 
 #ifndef _WIN32 //For Windows Like Systems
-#include <dirent.h>
 #include <windows.h>
 #define GetCurrentDir getcwd
 #define MAX_PATH_SIZE _MAX_PATH
@@ -38,6 +37,6 @@ void MakeFile(string);
 void ReadDirectory();
 void listOfFilesAndDirectories(const char*, vector<string>&, vector<string>&, vector<string>&);
 void FindFile(string);
-
+bool isDirectory(const char*);
 #endif
 

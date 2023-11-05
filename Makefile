@@ -13,10 +13,10 @@ OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRC_FILES))
 all: build_dir run
 
 build_dir:
-	mkdir $(BUILD_DIR)
+	mkdir -p $(BUILD_DIR)
 
 run: $(OBJ_FILES)
-	$(CC) $(CFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $^ -o $(BUILD_DIR)/your_program.exe
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -24,5 +24,4 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 clean:
 	rm -rf $(BUILD_DIR)
 
-.PHONY: all clean
- 
+.PHONY: all clean build_dir
