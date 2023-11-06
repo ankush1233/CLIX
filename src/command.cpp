@@ -129,7 +129,7 @@ void MakeFile(string UserCommand){
 		
 		int fd = open(newFile ,O_RDWR | O_CREAT  ,0644);
 		if(fd  == -1){
-			perror("open");
+			perror("Message : ");
 			exit(EXIT_FAILURE);
 		}
 
@@ -242,4 +242,15 @@ void DiskConfiguration(){
 	}
 	cout << '\n';
 	return;
+}
+
+void SetDrive(string UserCommand){
+	string Drive = UserCommand.substr(9);
+	Drive = Drive + ":\\";
+	const char* DriveBuffer = Drive.c_str();
+
+	if(SetCurrentDirectory(DriveBuffer) == 0){
+		cerr << "Unable to change Drive " << '\n';
+	}
+	return ;
 }

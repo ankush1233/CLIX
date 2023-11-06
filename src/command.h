@@ -42,5 +42,6 @@ void listOfFilesAndDirectories(const char*, vector<string>&, vector<string>&, ve
 void FindFile(string);
 bool isDirectory(const char*);
 void DiskConfiguration();
+void SetDrive(string);
 #endif
 

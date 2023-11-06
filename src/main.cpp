@@ -66,6 +66,12 @@ int main(){
 				cout << '\n';
 			}
 
+			pos = UserCommand.find("setdrive ");
+			if(pos != string :: npos){
+				SetDrive(UserCommand);
+				cout << '\n';
+			}
+
 		}
 	}
 	return 0;
