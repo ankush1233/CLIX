@@ -10,12 +10,13 @@ using namespace std;
 
 //char PathBuffer[MAX_PATH_SIZE];
 char currentPath[MAX_PATH_SIZE];
-vector<string> file_names;
-vector<string> files;	
-// void FindFile(const char* PathToFile){	
-
-// 	return;
-// }
+	
+namespace DynamicDataStructures{
+	vector<string> directories;
+	vector<string> file_names;
+	vector<string> files;
+	unordered_map<string, string> filewithDirectory;
+};
 
 bool isDirectory(const char* path) {
     struct stat statbuf;
@@ -27,6 +28,7 @@ bool isDirectory(const char* path) {
 
 void listOfFilesAndDirectories(const char* basePath, vector<std::string>& directories, vector<std::string>& files, vector<string>& file_names) {
     // Open the directory
+    using namespace DynamicDataStructures;
     DIR* dir = opendir(basePath);
 
     if (!dir) {
@@ -136,12 +138,15 @@ void MakeFile(string UserCommand){
 }
 	
 void ReadDirectory(){
-	
-	vector<string> directories;
+	using namespace DynamicDataStructures;
 
-	
 	GetCurrentDir(currentPath, sizeof(currentPath));
 	const char* basePath = currentPath;
+
+	DynamicDataStructures::directories.clear();
+	DynamicDataStructures::file_names.clear();
+	DynamicDataStructures::files.clear();
+
 	listOfFilesAndDirectories(basePath, directories, files, file_names);	
 	
 /*
@@ -165,28 +170,35 @@ void ReadDirectory(){
 }	
 
 void FindFile(string UserCommand) {
+	using namespace DynamicDataStructures;
+
     size_t pos = UserCommand.find("find ");
     struct stat fileStat;
     string tab = " ";
-    string totalTabsize = " ";
+    string totalSpacesize = " ";
     if (pos != string::npos) {
         string f_name = UserCommand.substr(pos + 5);
 
         for(auto i = 0; i<f_name.size(); i++){
-        	totalTabsize = totalTabsize + tab;
+        	totalSpacesize = totalSpacesize + tab;
         }
 
         cout << "Number of files: " << file_names.size() << '\n';
-        cout << "[FILE]" << totalTabsize << " [SIZE]" << "\n";
+        cout << "[FILE]" << totalSpacesize << " [SIZE]" << totalSpacesize <<"[DIR]"<<"\n";
         for (const string& file : files) {
             // Extract the filename from the full path
             size_t lastSlashPos = file.find_last_of("/\\");
 
             if (lastSlashPos != string::npos) {
                 string filename = file.substr(lastSlashPos + 1);
+                string directoryOfFile = file.substr(0, lastSlashPos);
+                filewithDirectory[directoryOfFile] = filename;
+                
                 if (f_name == filename) {
-                    if (stat(file.c_str(), &fileStat) == 0) 
-                        cout << filename << "\t" << fileStat.st_size << " bytes" << '\n'; 
+                    if (stat(file.c_str(), &fileStat) == 0) {
+                    	float accurateFileSize = static_cast<float>((fileStat.st_size)/1024.0);
+                        cout << filename << "\t" << accurateFileSize << " KB" << '\t' << directoryOfFile <<'\n'; 
+                    }
                 }
             }
         }
