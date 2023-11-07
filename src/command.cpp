@@ -1,6 +1,7 @@
 #include "command.h"
 #include <iostream>
 #include <sys/stat.h>  // For stat() function
+#define Megabyte 1048576
 #ifdef _WIN32
 #include <windows.h>  // For Windows-specific functions
 #endif
@@ -17,6 +18,9 @@ namespace DynamicDataStructures{
 	vector<string> files;
 	unordered_map<string, string> filewithDirectory;
 };
+
+string SourceFilePath;
+string FileBuffer;
 
 bool isDirectory(const char* path) {
     struct stat statbuf;
@@ -170,12 +174,15 @@ void ReadDirectory(){
 }	
 
 void FindFile(string UserCommand) {
+	
 	using namespace DynamicDataStructures;
 
     size_t pos = UserCommand.find("find ");
     struct stat fileStat;
+    
     string tab = " ";
     string totalSpacesize = " ";
+
     if (pos != string::npos) {
         string f_name = UserCommand.substr(pos + 5);
 
@@ -209,13 +216,18 @@ void FindFile(string UserCommand) {
 void DiskConfiguration(){
 
 	GetCurrentDir(currentPath, sizeof(currentPath));
+
 	string DiskPath = string(currentPath);
 	string Disk = DiskPath.substr(0, 3);
+	
 	const char* Drive = Disk.c_str();
+
 	DWORD sectorsPerCluster, bytesPerSector, freeClusters, totalClusters;
 	bool check;
 	check = GetDiskFreeSpaceA(Drive, &sectorsPerCluster, &bytesPerSector, &freeClusters, &totalClusters);
+
 	if (check) {
+
 		ULONGLONG freeSpaceBytes = (ULONGLONG)freeClusters * sectorsPerCluster * bytesPerSector;
 		ULONGLONG totalSpaceBytes = (ULONGLONG)totalClusters * sectorsPerCluster * bytesPerSector;
 		double gigabyte = 1024 * 1024 * 1024; // 1 GB is 1024 MB, 1 MB is 1024 KB, 1 KB is 1024 bytes
@@ -245,6 +257,7 @@ void DiskConfiguration(){
 }
 
 void SetDrive(string UserCommand){
+
 	string Drive = UserCommand.substr(9);
 	Drive = Drive + ":\\";
 	const char* DriveBuffer = Drive.c_str();
@@ -253,4 +266,83 @@ void SetDrive(string UserCommand){
 		cerr << "Unable to change Drive " << '\n';
 	}
 	return ;
+}
+
+void CopyFiles(string UserCommand){
+	size_t pos = UserCommand.find("c ");
+
+	if(pos != string :: npos) {
+
+		GetCurrentDir(currentPath, sizeof(currentPath));
+		FileBuffer = UserCommand.substr(2);
+
+		string CurrentPathString(currentPath);
+		CurrentPathString = CurrentPathString + "\\" + FileBuffer;
+
+		SourceFilePath = CurrentPathString;
+	} 
+	else{
+
+		if(UserCommand.find("p") != string::npos && (!SourceFilePath.empty())){
+
+			PasteFile(SourceFilePath, FileBuffer);
+		}
+		else{
+
+			cerr << "Unable to PasteFile \n";
+		}
+	}
+	return;
+}
+
+void PasteFile(string SourceFilePath, string FileBuff){
+
+	GetCurrentDir(currentPath, sizeof(currentPath));
+	string DestinationFilePath(currentPath);
+	DestinationFilePath = DestinationFilePath + "\\" + FileBuff;
+
+	const char* SourceFilePathPaste = SourceFilePath.c_str();
+	const char* DestinationFilePathPaste = DestinationFilePath.c_str();
+	
+	ifstream sourceFile(SourceFilePathPaste, ios::binary);
+    ofstream destinationFile(DestinationFilePathPaste, ios::binary);
+
+    if (!sourceFile) {
+        std::cerr << "Error opening source file: " << SourceFilePathPaste << std::endl;
+        return;
+    }
+    if (!destinationFile) {
+        std::cerr << "Error opening destination file: " << DestinationFilePathPaste << std::endl;
+        return;
+    }
+
+    const int buffer_size = 4096;
+    char buffer[buffer_size];
+
+    auto start = std::chrono::high_resolution_clock::now();
+    long long totalBytesCopied = 0;
+    long long previousBytesCopied = 0;
+
+    while (!sourceFile.eof()) {
+
+        sourceFile.read(buffer, buffer_size);
+        std::streamsize bytesRead = sourceFile.gcount();
+        destinationFile.write(buffer, bytesRead);
+        totalBytesCopied += bytesRead;
+
+        auto now = std::chrono::high_resolution_clock::now();
+        auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - start).count();
+
+        if (elapsed >= 1) {
+            double speed = static_cast<double>(totalBytesCopied - previousBytesCopied);
+            speed = speed/Megabyte;
+            std::cout << "Copying... " << ((totalBytesCopied)/Megabyte) << " MB, Speed: " << speed << " Mbps" << std::endl;
+            start = now;
+            previousBytesCopied = totalBytesCopied;
+        }
+        
+    }
+
+    cout << "File copy operation completed" << std::endl;
+    return ;
 }

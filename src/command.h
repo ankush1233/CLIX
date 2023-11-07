@@ -18,6 +18,8 @@
 #include <algorithm>
 #include <set>
 #include <unordered_map>
+#include <fstream>
+
 using namespace std;
 
 #ifndef _WIN32 //For Windows Like Systems
@@ -43,5 +45,7 @@ void FindFile(string);
 bool isDirectory(const char*);
 void DiskConfiguration();
 void SetDrive(string);
+void CopyFiles(string);
+void PasteFile(string, string);
 #endif
 
