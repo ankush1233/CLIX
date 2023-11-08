@@ -24,34 +24,45 @@ int main(){
 		    } else if (UserCommand == "nowdir") {
 		        NowDir();
 		        cout << '\n';
+
 		    } else if (UserCommand == "exit") {
 		        loop_control = false;
+
 		    } else if (UserCommand == "clr") {
 		        system("cls");
+
 		    } else if (UserCommand == "scandir") {
 		        ReadDirectory();
 		        cout << '\n';
+
 		    } else if (UserCommand == "driveconfig") {
 		        DiskConfiguration();
 		        cout << '\n';
+
 		    } else if (UserCommand.find("moveto ") == 0) {
 		        MoveToDirectory(UserCommand);
 		        cout << '\n';
+
 		    } else if (UserCommand.find("mkfile ") == 0) {
 		        MakeFile(UserCommand);
 		        cout << '\n';
+
 		    } else if (UserCommand.find("find ") == 0) {
 		        FindFile(UserCommand);
 		        cout << '\n';
+
 		    } else if (UserCommand.find("setdrive ") == 0) {
 		        SetDrive(UserCommand);
 		        cout << '\n';
+
 		    } else if (UserCommand.find("c ") == 0 || UserCommand.find("p") == 0) {
 		        CopyFiles(UserCommand);
 		        cout << '\n';
-		    } else {
-		        // Handle unrecognized command here.
-		        cout << "Unrecognized command: " << UserCommand << '\n';
+
+		    } else if (UserCommand.find("erase ") == 0){
+		        EraseFile(UserCommand);
+		        cout << '\n';
+
 		    }
 		}		
 	}

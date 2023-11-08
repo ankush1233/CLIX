@@ -346,3 +346,23 @@ void PasteFile(string SourceFilePath, string FileBuff){
     cout << "File copy operation completed" << std::endl;
     return ;
 }
+
+void EraseFile(string UserCommand){
+	string FileBuff = UserCommand.substr(6);
+	const char* File = FileBuff.c_str();
+	char agree;
+	cout << "Warning the file will get removed permanently!! Are you sure to remove it? (Y/N) : ";
+	cin >> agree;
+	cout << '\n';
+	if(agree == 'Y' || agree == 'y'){
+		if(remove(File) == 0){
+			cout << "File Erased Successfully\n";
+		
+		} else{
+			cerr << "Unable to EraseFile\n";
+		
+		}
+	}
+
+	return ;
+}

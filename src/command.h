@@ -47,5 +47,6 @@ void DiskConfiguration();
 void SetDrive(string);
 void CopyFiles(string);
 void PasteFile(string, string);
+void EraseFile(string);
 #endif
 
