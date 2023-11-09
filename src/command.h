@@ -29,7 +29,6 @@ using namespace std;
 
 #else
 #include <unistd.h> //For Unix-Like System
-
 #define GetCurrentDir _getcwd
 #define MAX_PATH_SIZE 4096
 #endif

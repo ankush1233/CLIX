@@ -18,17 +18,17 @@ int main(){
 		if (UserCommand == " ") {
 
         }else {
-			if (UserCommand == "back") {
+			if (UserCommand == "b") {
 		        BackToDirectory();
 		        cout << '\n';
-		    } else if (UserCommand == "nowdir") {
+		    } else if (UserCommand == "nd") {
 		        NowDir();
 		        cout << '\n';
 
 		    } else if (UserCommand == "exit") {
 		        loop_control = false;
 
-		    } else if (UserCommand == "clr") {
+		    } else if (UserCommand == "clear") {
 		        system("cls");
 
 		    } else if (UserCommand == "scandir") {
