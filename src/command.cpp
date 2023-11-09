@@ -371,7 +371,7 @@ void EraseDirectory(string UserCommand){
 	GetCurrentDir(currentPath, sizeof(currentPath));
 	FileBuffer = UserCommand.substr(3);
 
-	string stringCurrentPath(currentPath);
+	string stringCurrentPathpush(currentPath);
 	stringCurrentPath = stringCurrentPath + "\\" + FileBuffer;
 
 	const char* basePath = stringCurrentPath.c_str();
