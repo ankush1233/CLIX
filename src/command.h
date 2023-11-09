@@ -48,5 +48,7 @@ void SetDrive(string);
 void CopyFiles(string);
 void PasteFile(string, string);
 void EraseFile(string);
+void EraseDirectory(string);
+void EraseDirectoryRecursively(const char*);
 #endif
 

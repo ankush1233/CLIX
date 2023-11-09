@@ -76,12 +76,12 @@ void changeDirectory(const  char* path){
 
 void MoveToDirectory(string UserCommand){
 	
-	size_t pos = UserCommand.find("moveto ");
+	size_t pos = UserCommand.find("mvt ");
 		
 	if(pos != string :: npos){
 
-		string dir = UserCommand.substr(pos + 7);
-		string newdir = std::string(currentPath) + '\\' + dir; 
+		string dir = UserCommand.substr(pos + 4);
+		string newdir = string(currentPath) + '\\' + dir; 
 			
  		const char* newDirectory = newdir.c_str();
     	changeDirectory(newDirectory);
@@ -177,14 +177,14 @@ void FindFile(string UserCommand) {
 	
 	using namespace DynamicDataStructures;
 
-    size_t pos = UserCommand.find("find ");
+    size_t pos = UserCommand.find("f ");
     struct stat fileStat;
     
     string tab = " ";
     string totalSpacesize = " ";
 
     if (pos != string::npos) {
-        string f_name = UserCommand.substr(pos + 5);
+        string f_name = UserCommand.substr(pos + 2);
 
         for(auto i = 0; i<f_name.size(); i++){
         	totalSpacesize = totalSpacesize + tab;
@@ -348,7 +348,7 @@ void PasteFile(string SourceFilePath, string FileBuff){
 }
 
 void EraseFile(string UserCommand){
-	string FileBuff = UserCommand.substr(6);
+	string FileBuff = UserCommand.substr(3);
 	const char* File = FileBuff.c_str();
 	char agree;
 	cout << "Warning the file will get removed permanently!! Are you sure to remove it? (Y/N) : ";
@@ -365,4 +365,46 @@ void EraseFile(string UserCommand){
 	}
 
 	return ;
+}
+
+void EraseDirectory(string UserCommand){
+	GetCurrentDir(currentPath, sizeof(currentPath));
+	FileBuffer = UserCommand.substr(3);
+
+	string stringCurrentPath(currentPath);
+	stringCurrentPath = stringCurrentPath + "\\" + FileBuffer;
+
+	const char* basePath = stringCurrentPath.c_str();
+	
+	EraseDirectoryRecursively(basePath);
+	return;
+}
+
+void EraseDirectoryRecursively(const char* basePath){
+	DIR* dir = opendir(basePath);
+
+    if (!dir) {
+        std::cerr << "Error opening directory" << std::endl;
+        return;
+    }
+
+	struct dirent *entry;
+
+	while((entry = readdir(dir)) != NULL){
+		if(strcmp(entry -> d_name, ".") != 0 && strcmp(entry ->d_name, "..") != 0){
+			
+			string fullPath = string(basePath) + "/" + string(entry->d_name);
+			
+			if(isDirectory(fullPath.c_str())){
+				EraseDirectoryRecursively(fullPath.c_str());
+			
+			} else{
+				remove(fullPath.c_str());	
+
+			}
+		}
+	}
+
+	closedir(dir);
+	rmdir(basePath);
 }

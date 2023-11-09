@@ -39,7 +39,7 @@ int main(){
 		        DiskConfiguration();
 		        cout << '\n';
 
-		    } else if (UserCommand.find("moveto ") == 0) {
+		    } else if (UserCommand.find("mvt ") == 0) {
 		        MoveToDirectory(UserCommand);
 		        cout << '\n';
 
@@ -47,7 +47,7 @@ int main(){
 		        MakeFile(UserCommand);
 		        cout << '\n';
 
-		    } else if (UserCommand.find("find ") == 0) {
+		    } else if (UserCommand.find("f ") == 0) {
 		        FindFile(UserCommand);
 		        cout << '\n';
 
@@ -59,10 +59,16 @@ int main(){
 		        CopyFiles(UserCommand);
 		        cout << '\n';
 
-		    } else if (UserCommand.find("erase ") == 0){
+		    } else if (UserCommand.find("ef ") == 0){
 		        EraseFile(UserCommand);
 		        cout << '\n';
 
+		    } else if (UserCommand.find("ed ") == 0){
+		    	EraseDirectory(UserCommand);
+		    	cout << '\n';
+
+		    } else {
+		    	cout << "Invalid Command!!\n";
 		    }
 		}		
 	}
