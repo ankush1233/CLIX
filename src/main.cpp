@@ -13,7 +13,6 @@ int main(){
 			cout << currentDir << "~>";
 		}
 		
-		//cin >> UserCommand;
 		std::getline(std::cin, UserCommand, '\n');
 		if (UserCommand == " ") {
 
