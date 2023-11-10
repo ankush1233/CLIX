@@ -67,8 +67,8 @@ int main(){
 		    	EraseDirectory(UserCommand);
 		    	cout << '\n';
 
-		    } else {
-		    	cout << "Invalid Command!!\n";
+		    } else{
+		    	cout << "Invalid Command!!\n\n";
 		    }
 		}		
 	}

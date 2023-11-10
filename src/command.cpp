@@ -1,6 +1,10 @@
 #include "command.h"
 #include <iostream>
 #include <sys/stat.h>  // For stat() function
+#include <windows.h>
+#include <iostream>
+
+// Add these lines to include necessary headers
 #define Megabyte 1048576
 #ifdef _WIN32
 #include <windows.h>  // For Windows-specific functions
@@ -372,9 +376,9 @@ void EraseDirectory(string UserCommand){
 	FileBuffer = UserCommand.substr(3);
 
 	string stringCurrentPathpush(currentPath);
-	stringCurrentPath = stringCurrentPath + "\\" + FileBuffer;
+	stringCurrentPathpush = stringCurrentPathpush + "\\" + FileBuffer;
 
-	const char* basePath = stringCurrentPath.c_str();
+	const char* basePath = stringCurrentPathpush.c_str();
 	
 	EraseDirectoryRecursively(basePath);
 	return;

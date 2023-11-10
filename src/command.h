@@ -19,7 +19,6 @@
 #include <set>
 #include <unordered_map>
 #include <fstream>
-
 using namespace std;
 
 #ifndef _WIN32 //For Windows Like Systems
@@ -35,19 +34,20 @@ using namespace std;
 
 void MoveToDirectory(string);
 void changeDirectory(const char*);
-void NowDir();
-void BackToDirectory();
+void NowDir(void);
+void BackToDirectory(void);
 void MakeFile(string);
 void ReadDirectory();
 void listOfFilesAndDirectories(const char*, vector<string>&, vector<string>&, vector<string>&);
 void FindFile(string);
 bool isDirectory(const char*);
-void DiskConfiguration();
+void DiskConfiguration(void);
 void SetDrive(string);
 void CopyFiles(string);
 void PasteFile(string, string);
 void EraseFile(string);
 void EraseDirectory(string);
 void EraseDirectoryRecursively(const char*);
+void ProcessNow(void);
 #endif
 
