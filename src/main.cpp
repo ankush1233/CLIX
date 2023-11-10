@@ -21,6 +21,7 @@ int main(){
 			if (UserCommand == "back") {
 		        BackToDirectory();
 		        cout << '\n';
+		        
 		    } else if (UserCommand == "nd") {
 		        NowDir();
 		        cout << '\n';
