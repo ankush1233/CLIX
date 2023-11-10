@@ -129,19 +129,21 @@ void NowDir(){
 void MakeFile(string UserCommand){
 
 	size_t pos = UserCommand.find("mkfile ");
+	int fd;
 
 	if(pos != string :: npos){
 		
 		string file = UserCommand.substr(pos + 7);
 		const char* newFile = file.c_str();
 		
-		int fd = open(newFile ,O_RDWR | O_CREAT  ,0644);
+		fd = open(newFile ,O_RDWR | O_CREAT  ,0644);
 		if(fd  == -1){
 			perror("Message : ");
 			exit(EXIT_FAILURE);
 		}
 
 	}	
+	close(fd);
 	return ;
 }
 
