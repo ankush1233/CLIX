@@ -181,14 +181,14 @@ void FindFile(string UserCommand) {
 	
 	using namespace DynamicDataStructures;
 
-    size_t pos = UserCommand.find("f ");
+    size_t pos = UserCommand.find("find ");
     struct stat fileStat;
     
     string tab = " ";
     string totalSpacesize = " ";
 
     if (pos != string::npos) {
-        string f_name = UserCommand.substr(pos + 2);
+        string f_name = UserCommand.substr(pos + 5);
 
         for(auto i = 0; i<f_name.size(); i++){
         	totalSpacesize = totalSpacesize + tab;

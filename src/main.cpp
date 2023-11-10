@@ -18,7 +18,7 @@ int main(){
 		if (UserCommand == " ") {
 
         }else {
-			if (UserCommand == "b") {
+			if (UserCommand == "back") {
 		        BackToDirectory();
 		        cout << '\n';
 		    } else if (UserCommand == "nd") {
@@ -47,7 +47,7 @@ int main(){
 		        MakeFile(UserCommand);
 		        cout << '\n';
 
-		    } else if (UserCommand.find("f ") == 0) {
+		    } else if (UserCommand.find("find ") == 0) {
 		        FindFile(UserCommand);
 		        cout << '\n';
 
