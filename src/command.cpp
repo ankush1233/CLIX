@@ -159,17 +159,7 @@ void ReadDirectory(){
 	for(const string& directory : directories){
 		cout << directory << " " << "[DIR]" << '\n';
 	}
-
-	// cout << "Files : " << '\n';
-	// for(const string& file : files){
-	// 	cout << file << " " << "[FILES]" << '\n';
-	// }
-
-	cout << "Files Names : " << '\n';
-	for(const string& file_name : file_names){
-		cout << file_name << " " << "[FILES NAME]" << '\n';
-	}	
-			*/
+*/
 	return;
 }	
 
