@@ -48,6 +48,6 @@ void PasteFile(string, string);
 void EraseFile(string);
 void EraseDirectory(string);
 void EraseDirectoryRecursively(const char*);
-void ProcessNow(void);
+
 #endif
 

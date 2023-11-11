@@ -1,6 +1,6 @@
 #include "command.h"
 #include <iostream>
-
+#include <windows.h>
 
 int main(){
 	string UserCommand;
@@ -8,20 +8,20 @@ int main(){
 	char currentDir[MAX_PATH_SIZE];	
 
 	while(loop_control){
-		
+
 		if(GetCurrentDir(currentDir, sizeof(currentDir)) != nullptr){
 			cout << currentDir << "~>";
 		}
 		
-		//cin >> UserCommand;
-		std::getline(std::cin, UserCommand, '\n');
+		getline(std::cin, UserCommand, '\n');
+
 		if (UserCommand == " ") {
 
         }else {
 			if (UserCommand == "back") {
-		        BackToDirectory();
+		       	BackToDirectory();
 		        cout << '\n';
-		        
+
 		    } else if (UserCommand == "nd") {
 		        NowDir();
 		        cout << '\n';

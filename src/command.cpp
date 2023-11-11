@@ -6,6 +6,7 @@
 
 // Add these lines to include necessary headers
 #define Megabyte 0x100000
+#define Gigabyte 0x40000000
 #ifdef _WIN32
 #include <windows.h>  // For Windows-specific functions
 #endif
@@ -75,9 +76,9 @@ void listOfFilesAndDirectories(const char* basePath, vector<std::string>& direct
 //Change Directory function for all
 void changeDirectory(const  char* path){
 
-	if(chdir(path) != 0){
-		cerr << "Error: Unable to change directory to " << path << '\n';
-	}
+    chdir(path); 
+        //std::cerr << "Error changing directory to " << path << ": " << GetLastError() << std::endl;
+	
 	return ;
 }
 
@@ -92,9 +93,7 @@ void MoveToDirectory(string UserCommand){
 		string dir = UserCommand.substr(pos + 4);
 		string newdir = string(currentPath) + '\\' + dir; 
 			
- 		const char* newDirectory = newdir.c_str();
-    	changeDirectory(newDirectory);
-
+ 		chdir(newdir.c_str());
 	}
 	return;
 }
@@ -106,13 +105,14 @@ void BackToDirectory() {
 
 	string StringConversionOfPath(currentPath);
 	size_t LastBackSlash = StringConversionOfPath.find_last_of('\\');
-
+	
 	if (LastBackSlash != string::npos) {
 		string newPath = StringConversionOfPath.substr(0, LastBackSlash);
-		const char* newDirectory = newPath.c_str();
-
-		changeDirectory(newDirectory);
-
+		if(newPath == "C:"){
+			newPath = newPath + "\\";
+			chdir(newPath.c_str());
+		}
+		chdir(newPath.c_str());
 	}
 	return ;
 }
@@ -160,24 +160,6 @@ void ReadDirectory(){
 	DynamicDataStructures::files.clear();
 
 	listOfFilesAndDirectories(basePath, directories, files, file_names);	
-	
-/*
-	//...................Loading[########........]...................//
-	cout << "Directories : " << '\n';
-	for(const string& directory : directories){
-		cout << directory << " " << "[DIR]" << '\n';
-	}
-
-	// cout << "Files : " << '\n';
-	// for(const string& file : files){
-	// 	cout << file << " " << "[FILES]" << '\n';
-	// }
-
-	cout << "Files Names : " << '\n';
-	for(const string& file_name : file_names){
-		cout << file_name << " " << "[FILES NAME]" << '\n';
-	}	
-			*/
 	return;
 }	
 
@@ -428,5 +410,6 @@ void EraseDirectoryRecursively(const char* basePath){
 	closedir(dir);
 	rmdir(basePath);
 }
+
 
 
