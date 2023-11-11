@@ -35,6 +35,7 @@ bool isDirectory(const char* path) {
     return S_ISDIR(statbuf.st_mode) != 0;
 }
 
+
 void listOfFilesAndDirectories(const char* basePath, std::vector<std::string>& directories, std::vector<std::string>& files, std::vector<std::string>& file_names) {
     // Open the directory
     using namespace DynamicDataStructures;
@@ -69,18 +70,18 @@ void listOfFilesAndDirectories(const char* basePath, std::vector<std::string>& d
 }
 
 
-void MoveToDirectory(std::string UserCommand){
+void ReadDirectory(){
+
+	using namespace DynamicDataStructures;
 
 	GetCurrentDir(currentPath, sizeof(currentPath));
-	size_t pos = UserCommand.find("mvt ");
-		
-	if(pos != std::string::npos){
+	const char* basePath = currentPath;
 
-		std::string dir = UserCommand.substr(pos + 4);
-		std::string newdir = std::string(currentPath) + '\\' + dir; 
-			
- 		chdir(newdir.c_str());
-	}
+	DynamicDataStructures::directories.clear();
+	DynamicDataStructures::file_names.clear();
+	DynamicDataStructures::files.clear();
+
+	listOfFilesAndDirectories(basePath, directories, files, file_names);	
 	return;
 }
 
@@ -133,21 +134,21 @@ void MakeFile(std::string UserCommand){
 }
 
 	
-void ReadDirectory(){
-
-	using namespace DynamicDataStructures;
+void MoveToDirectory(std::string UserCommand){
 
 	GetCurrentDir(currentPath, sizeof(currentPath));
-	const char* basePath = currentPath;
+	size_t pos = UserCommand.find("mvt ");
+		
+	if(pos != std::string::npos){
 
-	DynamicDataStructures::directories.clear();
-	DynamicDataStructures::file_names.clear();
-	DynamicDataStructures::files.clear();
-
-	listOfFilesAndDirectories(basePath, directories, files, file_names);	
+		std::string dir = UserCommand.substr(pos + 4);
+		std::string newdir = std::string(currentPath) + '\\' + dir; 
+			
+ 		chdir(newdir.c_str());
+	}
 	return;
-}	
-
+}
+	
 
 void FindFile(std::string UserCommand) {
 	
@@ -321,6 +322,9 @@ void PasteFile(std::string SourceFilePath, std::string FileBuff){
             previousBytesCopied = totalBytesCopied;
         }     
     }
+   	
+   	sourceFile.close();
+	destinationFile.close();
 
     std::cout << "File copy operation completed" << '\n';
     return ;
