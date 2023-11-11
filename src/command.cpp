@@ -18,16 +18,16 @@ using namespace std;
 char currentPath[MAX_PATH_SIZE];
 
 //Buffer to hold the file path and file name
-string SourceFilePath;
-string FileBuffer;
+std :: string SourceFilePath;
+std :: string FileBuffer;
 
 	
 //Containers to hold the Directories, files, filenames;
 namespace DynamicDataStructures{
-	vector<string> directories;
-	vector<string> file_names;
-	vector<string> files;
-	unordered_map<string, string> filewithDirectory;
+	std :: vector<string> directories;
+	std :: vector<string> file_names;
+	std :: vector<string> files;
+	std :: unordered_map<string, string> filewithDirectory;
 };
 
 
@@ -39,7 +39,7 @@ bool isDirectory(const char* path) {
     return S_ISDIR(statbuf.st_mode) != 0;
 }
 
-void listOfFilesAndDirectories(const char* basePath, vector<std::string>& directories, vector<std::string>& files, vector<string>& file_names) {
+void listOfFilesAndDirectories(const char* basePath, std :: vector<std::string>& directories, std :: vector<std::string>& files, std :: vector<string>& file_names) {
     // Open the directory
     using namespace DynamicDataStructures;
     DIR* dir = opendir(basePath);
@@ -73,25 +73,15 @@ void listOfFilesAndDirectories(const char* basePath, vector<std::string>& direct
 }
 
 
-//Change Directory function for all
-void changeDirectory(const  char* path){
-
-    chdir(path); 
-        //std::cerr << "Error changing directory to " << path << ": " << GetLastError() << std::endl;
-	
-	return ;
-}
-
-
-void MoveToDirectory(string UserCommand){
+void MoveToDirectory(std :: string UserCommand){
 
 	GetCurrentDir(currentPath, sizeof(currentPath));
 	size_t pos = UserCommand.find("mvt ");
 		
-	if(pos != string :: npos){
+	if(pos != std :: string :: npos){
 
-		string dir = UserCommand.substr(pos + 4);
-		string newdir = string(currentPath) + '\\' + dir; 
+		std :: string dir = UserCommand.substr(pos + 4);
+		std :: string newdir = string(currentPath) + '\\' + dir; 
 			
  		chdir(newdir.c_str());
 	}
@@ -103,11 +93,11 @@ void BackToDirectory() {
 
 	GetCurrentDir(currentPath, sizeof(currentPath));
 
-	string StringConversionOfPath(currentPath);
+	std :: string StringConversionOfPath(currentPath);
 	size_t LastBackSlash = StringConversionOfPath.find_last_of('\\');
 	
-	if (LastBackSlash != string::npos) {
-		string newPath = StringConversionOfPath.substr(0, LastBackSlash);
+	if (LastBackSlash != std :: string::npos) {
+		std :: string newPath = StringConversionOfPath.substr(0, LastBackSlash);
 		if(newPath == "C:"){
 			newPath = newPath + "\\";
 			chdir(newPath.c_str());
@@ -121,19 +111,19 @@ void BackToDirectory() {
 void NowDir(){
 
 	if(GetCurrentDir(currentPath, sizeof(currentPath)) != nullptr){
-		cout << "Current directory: " << currentPath << '\n';
+		std :: cout << "Current directory: " << currentPath << '\n';
 	}	
 }
 
 
-void MakeFile(string UserCommand){
+void MakeFile(std :: string UserCommand){
 
 	size_t pos = UserCommand.find("mkfile ");
 	int fd;
 
-	if(pos != string :: npos){
+	if(pos != std :: string :: npos){
 		
-		string file = UserCommand.substr(pos + 7);
+		std :: string file = UserCommand.substr(pos + 7);
 		const char* newFile = file.c_str();
 		
 		fd = open(newFile ,O_RDWR | O_CREAT  ,0644);
@@ -141,7 +131,6 @@ void MakeFile(string UserCommand){
 			perror("Message : ");
 			exit(EXIT_FAILURE);
 		}
-
 	}	
 	close(fd);
 	return ;
@@ -164,18 +153,18 @@ void ReadDirectory(){
 }	
 
 
-void FindFile(string UserCommand) {
+void FindFile(std :: string UserCommand) {
 	
 	using namespace DynamicDataStructures;
 
     size_t pos = UserCommand.find("find ");
     struct stat fileStat;
     
-    string tab = " ";
-    string totalSpacesize = " ";
+    std :: string tab = " ";
+    std :: string totalSpacesize = " ";
 
     if (pos != string::npos) {
-        string f_name = UserCommand.substr(pos + 5);
+        std :: string f_name = UserCommand.substr(pos + 5);
 
         for(auto i = 0; i<f_name.size(); i++){
         	totalSpacesize = totalSpacesize + tab;
@@ -183,19 +172,19 @@ void FindFile(string UserCommand) {
 
         cout << "Number of files: " << file_names.size() << '\n';
         cout << "[FILE]" << totalSpacesize << " [SIZE]" << totalSpacesize <<"[DIR]"<<"\n";
-        for (const string& file : files) {
+        for (const std :: string& file : files) {
             // Extract the filename from the full path
             size_t lastSlashPos = file.find_last_of("/\\");
 
-            if (lastSlashPos != string::npos) {
-                string filename = file.substr(lastSlashPos + 1);
-                string directoryOfFile = file.substr(0, lastSlashPos);
+            if (lastSlashPos != std :: string::npos) {
+                std :: string filename = file.substr(lastSlashPos + 1);
+                std :: string directoryOfFile = file.substr(0, lastSlashPos);
                 filewithDirectory[directoryOfFile] = filename;
                 
                 if (f_name == filename) {
                     if (stat(file.c_str(), &fileStat) == 0) {
                     	float accurateFileSize = static_cast<float>((fileStat.st_size)/1024.0);
-                        cout << filename << "\t" << accurateFileSize << " KB" << '\t' << directoryOfFile <<'\n'; 
+                        std :: cout << filename << "\t" << accurateFileSize << " KB" << '\t' << directoryOfFile <<'\n'; 
                     }
                 }
             }
@@ -209,8 +198,8 @@ void DiskConfiguration(){
 
 	GetCurrentDir(currentPath, sizeof(currentPath));
 
-	string DiskPath = string(currentPath);
-	string Disk = DiskPath.substr(0, 3);
+	std :: string DiskPath = string(currentPath);
+	std :: string Disk = DiskPath.substr(0, 3);
 	
 	const char* Drive = Disk.c_str();
 
@@ -227,8 +216,8 @@ void DiskConfiguration(){
 		double freeSpaceGB = (double)freeSpaceBytes / gigabyte;
 		double totalSpaceGB = (double)totalSpaceBytes / gigabyte;
 
-		cout << "Total space on " << Drive << "  " << totalSpaceGB << "GB" << '\n';
-		cout << "Free space on " << Drive  << "   " << freeSpaceGB << "GB" << '\n';
+		std :: cout << "Total space on " << Drive << "  " << totalSpaceGB << "GB" << '\n';
+		std :: cout << "Free space on " << Drive  << "   " << freeSpaceGB << "GB" << '\n';
 
 		double disk_percentage = ((freeSpaceGB) / (totalSpaceGB)) * 100;
 		std::cout << "Percentage Used :   " <<disk_percentage << "%" <<'\n';
@@ -244,33 +233,33 @@ void DiskConfiguration(){
 		}
 		std::cout << "]";
 	}
-	cout << '\n';
+	std :: cout << '\n';
 	return;
 }
 
 
-void SetDrive(string UserCommand){
+void SetDrive(std :: string UserCommand){
 
-	string Drive = UserCommand.substr(9);
+	std :: string Drive = UserCommand.substr(9);
 	Drive = Drive + ":\\";
 	const char* DriveBuffer = Drive.c_str();
 
 	if(SetCurrentDirectory(DriveBuffer) == 0){
-		cerr << "Unable to change Drive " << '\n';
+		std :: cerr << "Unable to change Drive " << '\n';
 	}
 	return ;
 }
 
 
-void CopyFiles(string UserCommand){
+void CopyFiles(std :: string UserCommand){
 	size_t pos = UserCommand.find("c ");
 
-	if(pos != string :: npos) {
+	if(pos != std :: string :: npos) {
 
 		GetCurrentDir(currentPath, sizeof(currentPath));
 		FileBuffer = UserCommand.substr(2);
 
-		string CurrentPathString(currentPath);
+		std :: string CurrentPathString(currentPath);
 		CurrentPathString = CurrentPathString + "\\" + FileBuffer;
 
 		SourceFilePath = CurrentPathString;
@@ -283,24 +272,24 @@ void CopyFiles(string UserCommand){
 		}
 		else{
 
-			cerr << "Unable to PasteFile \n";
+			std :: cerr << "Unable to PasteFile \n";
 		}
 	}
 	return;
 }
 
 
-void PasteFile(string SourceFilePath, string FileBuff){
+void PasteFile(std :: string SourceFilePath, std :: string FileBuff){
 
 	GetCurrentDir(currentPath, sizeof(currentPath));
-	string DestinationFilePath(currentPath);
+	std :: string DestinationFilePath(currentPath);
 	DestinationFilePath = DestinationFilePath + "\\" + FileBuff;
 
 	const char* SourceFilePathPaste = SourceFilePath.c_str();
 	const char* DestinationFilePathPaste = DestinationFilePath.c_str();
 	
-	ifstream sourceFile(SourceFilePathPaste, ios::binary);
-    ofstream destinationFile(DestinationFilePathPaste, ios::binary);
+	std :: ifstream sourceFile(SourceFilePathPaste, ios::binary);
+    std :: ofstream destinationFile(DestinationFilePathPaste, ios::binary);
 
     if (!sourceFile) {
         std::cerr << "Error opening source file: " << SourceFilePathPaste << std::endl;
@@ -337,41 +326,40 @@ void PasteFile(string SourceFilePath, string FileBuff){
         }     
     }
 
-    cout << "File copy operation completed" << std::endl;
+    std :: cout << "File copy operation completed" << std::endl;
     return ;
 }
 
 
-void EraseFile(string UserCommand){
+void EraseFile(std :: string UserCommand){
 
-	string FileBuff = UserCommand.substr(3);
+	std :: string FileBuff = UserCommand.substr(3);
 	const char* File = FileBuff.c_str();
 
 	char agree;
-	cout << "Warning the file will get removed permanently!! Are you sure to remove it? (Y/N) : ";
-	cin >> agree;
-	cout << '\n';
+	std :: cout << "Warning the file will get removed permanently!! Are you sure to remove it? (Y/N) : ";
+	std :: cin >> agree;
+	std :: cout << '\n';
 
 	if(agree == 'Y' || agree == 'y'){
 		if(remove(File) == 0){
-			cout << "File Erased Successfully\n";
+			std :: cout << "File Erased Successfully\n";
 		
 		} else{
-			cerr << "Unable to EraseFile\n";
+			std :: cerr << "Unable to EraseFile\n";
 		
 		}
 	}
-
 	return ;
 }
 
 
-void EraseDirectory(string UserCommand){
+void EraseDirectory(std :: string UserCommand){
 
 	GetCurrentDir(currentPath, sizeof(currentPath));
 	FileBuffer = UserCommand.substr(3);
 
-	string stringCurrentPathpush(currentPath);
+	std :: string stringCurrentPathpush(currentPath);
 	stringCurrentPathpush = stringCurrentPathpush + "\\" + FileBuffer;
 
 	const char* basePath = stringCurrentPathpush.c_str();
@@ -395,7 +383,7 @@ void EraseDirectoryRecursively(const char* basePath){
 	while((entry = readdir(dir)) != NULL){
 		if(strcmp(entry -> d_name, ".") != 0 && strcmp(entry ->d_name, "..") != 0){
 			
-			string fullPath = string(basePath) + "/" + string(entry->d_name);
+			std :: string fullPath = string(basePath) + "/" + string(entry->d_name);
 			
 			if(isDirectory(fullPath.c_str())){
 				EraseDirectoryRecursively(fullPath.c_str());

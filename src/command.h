@@ -19,7 +19,6 @@
 #include <set>
 #include <unordered_map>
 #include <fstream>
-using namespace std;
 
 #ifndef _WIN32 //For Windows Like Systems
 #include <windows.h>
@@ -32,21 +31,21 @@ using namespace std;
 #define MAX_PATH_SIZE 4096
 #endif
 
-void MoveToDirectory(string);
+void MoveToDirectory(std :: string);
 void changeDirectory(const char*);
 void NowDir(void);
 void BackToDirectory(void);
-void MakeFile(string);
+void MakeFile(std :: string);
 void ReadDirectory();
-void listOfFilesAndDirectories(const char*, vector<string>&, vector<string>&, vector<string>&);
-void FindFile(string);
+void listOfFilesAndDirectories(const char*, std :: vector<std :: string>&, std :: vector<std :: string>&, std :: vector<std :: string>&);
+void FindFile(std :: string);
 bool isDirectory(const char*);
 void DiskConfiguration(void);
-void SetDrive(string);
-void CopyFiles(string);
-void PasteFile(string, string);
-void EraseFile(string);
-void EraseDirectory(string);
+void SetDrive(std :: string);
+void CopyFiles(std :: string);
+void PasteFile(std :: string, std :: string);
+void EraseFile(std :: string);
+void EraseDirectory(std :: string);
 void EraseDirectoryRecursively(const char*);
 
 #endif

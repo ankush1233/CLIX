@@ -3,14 +3,14 @@
 #include <windows.h>
 
 int main(){
-	string UserCommand;
+	std :: string UserCommand;
 	bool loop_control = true;
 	char currentDir[MAX_PATH_SIZE];	
 
 	while(loop_control){
 
 		if(GetCurrentDir(currentDir, sizeof(currentDir)) != nullptr){
-			cout << currentDir << "~>";
+			std :: cout << currentDir << "~>";
 		}
 		
 		getline(std::cin, UserCommand, '\n');
@@ -20,11 +20,11 @@ int main(){
         }else {
 			if (UserCommand == "back") {
 		       	BackToDirectory();
-		        cout << '\n';
+		        std :: cout << '\n';
 
 		    } else if (UserCommand == "nd") {
 		        NowDir();
-		        cout << '\n';
+		        std :: cout << '\n';
 
 		    } else if (UserCommand == "exit") {
 		        loop_control = false;
@@ -34,42 +34,42 @@ int main(){
 
 		    } else if (UserCommand == "scandir") {
 		        ReadDirectory();
-		        cout << '\n';
+		        std :: cout << '\n';
 
 		    } else if (UserCommand == "driveconfig") {
 		        DiskConfiguration();
-		        cout << '\n';
+		        std :: cout << '\n';
 
 		    } else if (UserCommand.find("mvt ") == 0) {
 		        MoveToDirectory(UserCommand);
-		        cout << '\n';
+		        std :: cout << '\n';
 
 		    } else if (UserCommand.find("mkfile ") == 0) {
 		        MakeFile(UserCommand);
-		        cout << '\n';
+		        std :: cout << '\n';
 
 		    } else if (UserCommand.find("find ") == 0) {
 		        FindFile(UserCommand);
-		        cout << '\n';
+		        std :: cout << '\n';
 
 		    } else if (UserCommand.find("setdrive ") == 0) {
 		        SetDrive(UserCommand);
-		        cout << '\n';
+		        std :: cout << '\n';
 
 		    } else if (UserCommand.find("c ") == 0 || UserCommand.find("p") == 0) {
 		        CopyFiles(UserCommand);
-		        cout << '\n';
+		        std :: cout << '\n';
 
 		    } else if (UserCommand.find("ef ") == 0){
 		        EraseFile(UserCommand);
-		        cout << '\n';
+		        std :: cout << '\n';
 
 		    } else if (UserCommand.find("ed ") == 0){
 		    	EraseDirectory(UserCommand);
-		    	cout << '\n';
+		    	std :: cout << '\n';
 
 		    } else{
-		    	cout << "Invalid Command!!\n\n";
+		    	std :: cout << "Invalid Command!!\n\n";
 		    }
 		}		
 	}
