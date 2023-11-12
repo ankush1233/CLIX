@@ -26,6 +26,7 @@ namespace DynamicDataStructures{
 	std::vector<std::string> files;
 	std::unordered_map<std::string, std::string> filewithDirectory;
 	std::unordered_map<std::string, std::vector<std::string>> FileMappingWithDirectory;
+	std::unordered_set<std::string> CheckIfVisited;
 };
 
 bool isDirectory(const char* path) {
@@ -50,22 +51,27 @@ void listOfFilesAndDirectories(const char* basePath) {
     struct dirent* entry;
 	while ((entry = readdir(dir))) {
 		if (strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0) {
-
+			std::string_view basePathView(basePath);
+			std::string_view entryName(entry->d_name);
 			// Construct the full path for the current item
-			std::string fullPath = std::string(basePath) + "/" + std::string(entry->d_name);
+			std::string fullPath = std::string(basePathView) + "/" + std::string(entryName);
 
-			if (isDirectory(fullPath.c_str())) {
-				// It's a directory visit the directory recursively
-				//directories.push_back(fullPath);
-				listOfFilesAndDirectories(fullPath.c_str());
+			//For Caching
+			if(CheckIfVisited.find(fullPath) == CheckIfVisited.end()) {
+				if (isDirectory(fullPath.c_str())) {
+					// It's a directory visit the directory recursively
+					//directories.push_back(fullPath);
+					listOfFilesAndDirectories(fullPath.c_str());
 
-			} else {
-				// It's a file, so add it to the files vector and do a recursive call
-				/*file_names.push_back(std::string(entry->d_name));
-				files.push_back(fullPath);*/
-				FileMappingWithDirectory[std::string(entry->d_name)].push_back(fullPath);
+				} else {
+					// It's a file, so add it to the files vector and do a recursive call
+					/*file_names.push_back(std::string(entry->d_name));
+					files.push_back(fullPath);*/
+					FileMappingWithDirectory[std::string(entry->d_name)].push_back(fullPath);
+				}
+			} else{
+				CheckIfVisited.insert(fullPath);
 			}
-
 		}
 	}
 	closedir(dir);
@@ -79,11 +85,15 @@ void ReadDirectory(){
 	GetCurrentDir(currentPath, sizeof(currentPath));
 	const char* basePath = currentPath;
 
-	DynamicDataStructures::directories.clear();
+	/*DynamicDataStructures::directories.clear();
 	DynamicDataStructures::file_names.clear();
-	DynamicDataStructures::files.clear();
+	DynamicDataStructures::files.clear();*/
 
-	listOfFilesAndDirectories(basePath/*, directories, files, file_names*/);	
+	auto start = std::chrono::high_resolution_clock::now();
+	listOfFilesAndDirectories(basePath);	
+	auto end = std::chrono::high_resolution_clock::now();
+	auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(end - start).count();
+	std::cout << elapsed << "s"; 
 	return;
 }
 

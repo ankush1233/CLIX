@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -Wall
+CFLAGS = -Wall -std=c++17
 
 SRC_DIR = src
 BUILD_DIR = build
