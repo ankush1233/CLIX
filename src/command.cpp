@@ -25,6 +25,7 @@ namespace DynamicDataStructures{
 	std::vector<std::string> file_names;
 	std::vector<std::string> files;
 	std::unordered_map<std::string, std::string> filewithDirectory;
+	std::unordered_map<std::string, std::vector<std::string>> FileMappingWithDirectory;
 };
 
 bool isDirectory(const char* path) {
@@ -36,7 +37,7 @@ bool isDirectory(const char* path) {
 }
 
 
-void listOfFilesAndDirectories(const char* basePath, std::vector<std::string>& directories, std::vector<std::string>& files, std::vector<std::string>& file_names) {
+void listOfFilesAndDirectories(const char* basePath) {
     // Open the directory
     using namespace DynamicDataStructures;
     DIR* dir = opendir(basePath);
@@ -55,13 +56,14 @@ void listOfFilesAndDirectories(const char* basePath, std::vector<std::string>& d
 
 			if (isDirectory(fullPath.c_str())) {
 				// It's a directory visit the directory recursively
-				directories.push_back(fullPath);
-				listOfFilesAndDirectories(fullPath.c_str(), directories, files, file_names);
+				//directories.push_back(fullPath);
+				listOfFilesAndDirectories(fullPath.c_str());
 
 			} else {
 				// It's a file, so add it to the files vector and do a recursive call
-				file_names.push_back(std::string(entry->d_name));
-				files.push_back(fullPath);
+				/*file_names.push_back(std::string(entry->d_name));
+				files.push_back(fullPath);*/
+				FileMappingWithDirectory[std::string(entry->d_name)].push_back(fullPath);
 			}
 
 		}
@@ -81,7 +83,7 @@ void ReadDirectory(){
 	DynamicDataStructures::file_names.clear();
 	DynamicDataStructures::files.clear();
 
-	listOfFilesAndDirectories(basePath, directories, files, file_names);	
+	listOfFilesAndDirectories(basePath/*, directories, files, file_names*/);	
 	return;
 }
 
@@ -163,29 +165,22 @@ void FindFile(std::string UserCommand) {
     if (pos != std::string::npos) {
         std::string f_name = UserCommand.substr(pos + 5);
 
-        for(auto i = 0; i<f_name.size(); i++){
+        for(auto i = 0; i<f_name.size(); i++) {
         	totalSpacesize = totalSpacesize + tab;
         }
 
-        std::cout << "Number of files: " << file_names.size() << '\n';
         std::cout << "[FILE]" << totalSpacesize << " [SIZE]" << totalSpacesize <<"[DIR]"<<"\n";
-        for (const std::string& file : files) {
-            // Extract the filename from the full path
-            size_t lastSlashPos = file.find_last_of("/\\");
 
-            if (lastSlashPos != std::string::npos) {
-                std::string filename = file.substr(lastSlashPos + 1);
-                std::string directoryOfFile = file.substr(0, lastSlashPos);
-                filewithDirectory[directoryOfFile] = filename;
-                
-                if (f_name == filename) {
-                    if (stat(file.c_str(), &fileStat) == 0) {
-                    	float accurateFileSize = static_cast<float>((fileStat.st_size)/1024.0);
-                        std::cout << filename << "\t" << accurateFileSize << " KB" << '\t' << directoryOfFile <<'\n'; 
-                    }
-                }
-            }
-        }
+    	if(FileMappingWithDirectory.find(f_name) != FileMappingWithDirectory.end()){
+
+    		for (const auto& path : FileMappingWithDirectory[f_name]) {
+    			if (stat(path.c_str(), &fileStat) == 0){
+    				float accurateFileSize = static_cast<float>((fileStat.st_size)/1024.0);
+    				//std::cout << "Last modified time: " << ctime(&fileStat.st_mtime);
+        			std::cout << f_name << "\t" << accurateFileSize << " KB" << '\t' << path <<'\n';
+        		}
+    		}
+    	}
     }
     return;
 }
