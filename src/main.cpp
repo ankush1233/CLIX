@@ -3,14 +3,14 @@
 #include <windows.h>
 
 int main(){
-	std :: string UserCommand;
+	std::string UserCommand;
 	bool loop_control = true;
 	char currentDir[MAX_PATH_SIZE];	
 
 	while(loop_control){
 
 		if(GetCurrentDir(currentDir, sizeof(currentDir)) != nullptr){
-			std :: cout << currentDir << "~>";
+			std::cout << currentDir << "~>";
 		}
 		
 		getline(std::cin, UserCommand, '\n');
@@ -20,11 +20,11 @@ int main(){
         }else {
 			if (UserCommand == "back") {
 		       	BackToDirectory();
-		        std :: cout << '\n';
+		        std::cout << '\n';
 
 		    } else if (UserCommand == "nd") {
 		        NowDir();
-		        std :: cout << '\n';
+		        std::cout << '\n';
 
 		    } else if (UserCommand == "exit") {
 		        loop_control = false;
@@ -34,42 +34,46 @@ int main(){
 
 		    } else if (UserCommand == "scandir") {
 		        ScanDirectory();
-		        std :: cout << '\n';
+		        std::cout << '\n';
 
 		    } else if (UserCommand == "driveconfig") {
 		        DiskConfiguration();
-		        std :: cout << '\n';
+		        std::cout << '\n';
 
 		    } else if (UserCommand.find("mvt ") == 0) {
 		        MoveToDirectory(UserCommand);
-		        std :: cout << '\n';
+		        std::cout << '\n';
 
 		    } else if (UserCommand.find("mkfile ") == 0) {
 		        MakeFile(UserCommand);
-		        std :: cout << '\n';
+		        std::cout << '\n';
 
 		    } else if (UserCommand.find("find ") == 0) {
 		        FindFile(UserCommand);
-		        std :: cout << '\n';
+		        std::cout << '\n';
 
 		    } else if (UserCommand.find("setdrive ") == 0) {
 		        SetDrive(UserCommand);
-		        std :: cout << '\n';
+		        std::cout << '\n';
 
 		    } else if (UserCommand.find("c ") == 0 || UserCommand.find("p") == 0) {
 		        CopyFiles(UserCommand);
-		        std :: cout << '\n';
+		        std::cout << '\n';
 
 		    } else if (UserCommand.find("ef ") == 0){
 		        EraseFile(UserCommand);
-		        std :: cout << '\n';
+		        std::cout << '\n';
 
 		    } else if (UserCommand.find("ed ") == 0){
 		    	EraseDirectory(UserCommand);
-		    	std :: cout << '\n';
+		    	std::cout << '\n';
+
+		    } else if (UserCommand.find("readdir") == 0){
+		    	ReadDirectory();
+		    	std::cout << '\n';
 
 		    } else{
-		    	std :: cout << "Invalid Command!!\n\n";
+		    	std::cout << "Invalid Command!!\n\n";
 		    }
 		}		
 	}

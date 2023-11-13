@@ -399,4 +399,35 @@ void EraseDirectoryRecursively(const char* basePath){
 }
 
 
+void ColorizeText(const std::string& text, const std::string& colorCode){
+	std::cout << "\033[" << colorCode << "m" << text << "\033[0m";
+	std::cout << " ";
+}
 
+
+void ReadDirectory(){
+	GetCurrentDir(currentPath, sizeof(currentPath));
+	DIR* dir = opendir(currentPath);
+	
+	if(!dir){
+		std::cerr << "Errro in opening directory " << '\n';
+		return;
+	}
+
+	struct dirent* entry;
+
+	while(entry = readdir(dir)){
+		if(strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..")){
+			std::string fullPath = std::string(currentPath) + "/" + std::string(entry->d_name);
+
+			if(isDirectory(fullPath.c_str())){
+				ColorizeText(std::string(entry->d_name) + "/", "32");
+
+			} else{
+				ColorizeText(std::string(entry->d_name), "36");
+			}
+		}
+	}
+	std::cout << '\n';
+	closedir(dir);
+}

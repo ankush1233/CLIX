@@ -49,6 +49,8 @@ void PasteFile(std::string, std::string);
 void EraseFile(std::string);
 void EraseDirectory(std::string);
 void EraseDirectoryRecursively(const char*);
+void ReadDirectory();
+void ColorizeText(const std::string&, const std::string&);
 
 #endif
 
