@@ -25,8 +25,8 @@ namespace DynamicDataStructures{
 	std::vector<std::string> file_names;
 	std::vector<std::string> files;
 	std::unordered_map<std::string, std::string> filewithDirectory;
-	std::unordered_map<std::string, std::vector<std::string>> FileMappingWithDirectory;
-	std::unordered_set<std::string> CheckIfVisited;
+	std::unordered_map<std::string, std::unordered_set<std::string>> FileMappingWithDirectory;
+	std::unordered_map<std::string, bool> CheckIfVisited;
 };
 
 bool isDirectory(const char* path) {
@@ -57,20 +57,18 @@ void listOfFilesAndDirectories(const char* basePath) {
 			std::string fullPath = std::string(basePathView) + "/" + std::string(entryName);
 
 			//For Caching
-			if(CheckIfVisited.find(fullPath) == CheckIfVisited.end()) {
+			if(CheckIfVisited[fullPath] == false) {
 				if (isDirectory(fullPath.c_str())) {
 					// It's a directory visit the directory recursively
-					//directories.push_back(fullPath);
 					listOfFilesAndDirectories(fullPath.c_str());
 
 				} else {
-					// It's a file, so add it to the files vector and do a recursive call
-					/*file_names.push_back(std::string(entry->d_name));
-					files.push_back(fullPath);*/
-					FileMappingWithDirectory[std::string(entry->d_name)].push_back(fullPath);
+					FileMappingWithDirectory[std::string(entryName)].insert(fullPath);
+				
 				}
 			} else{
-				CheckIfVisited.insert(fullPath);
+				CheckIfVisited[fullPath] = true;
+			
 			}
 		}
 	}
@@ -78,16 +76,12 @@ void listOfFilesAndDirectories(const char* basePath) {
 }
 
 
-void ReadDirectory(){
+void ScanDirectory(){
 
 	using namespace DynamicDataStructures;
 
 	GetCurrentDir(currentPath, sizeof(currentPath));
 	const char* basePath = currentPath;
-
-	/*DynamicDataStructures::directories.clear();
-	DynamicDataStructures::file_names.clear();
-	DynamicDataStructures::files.clear();*/
 
 	auto start = std::chrono::high_resolution_clock::now();
 	listOfFilesAndDirectories(basePath);	
@@ -343,7 +337,8 @@ void EraseFile(std::string UserCommand){
 
 	char agree;
 	std::cout << "Warning the file will get removed permanently!! Are you sure to remove it? (Y/N) : ";
-	std::cin >> agree;
+	std::cin.get(agree);
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	std::cout << '\n';
 
 	if(agree == 'Y' || agree == 'y'){

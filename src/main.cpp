@@ -33,7 +33,7 @@ int main(){
 		        system("cls");
 
 		    } else if (UserCommand == "scandir") {
-		        ReadDirectory();
+		        ScanDirectory();
 		        std :: cout << '\n';
 
 		    } else if (UserCommand == "driveconfig") {

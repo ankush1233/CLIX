@@ -38,7 +38,7 @@ void changeDirectory(const char*);
 void NowDir(void);
 void BackToDirectory(void);
 void MakeFile(std::string);
-void ReadDirectory();
+void ScanDirectory();
 void listOfFilesAndDirectories(const char*);
 void FindFile(std::string);
 bool isDirectory(const char*);
