@@ -38,6 +38,9 @@ bool isDirectory(const char* path) {
 }
 
 
+
+
+
 void listOfFilesAndDirectories(const char* basePath) {
     // Open the directory
     using namespace DynamicDataStructures;
@@ -54,9 +57,8 @@ void listOfFilesAndDirectories(const char* basePath) {
 			std::string_view basePathView(basePath);
 			std::string_view entryName(entry->d_name);
 			// Construct the full path for the current item
-			std::string fullPath = std::string(basePathView) + "/" + std::string(entryName);
-
-			//For Caching
+			std::string fullPath = std::string(basePathView) + "\\" + std::string(entryName);
+			
 			if(CheckIfVisited[fullPath] == false) {
 				if (isDirectory(fullPath.c_str())) {
 					// It's a directory visit the directory recursively
@@ -77,8 +79,6 @@ void listOfFilesAndDirectories(const char* basePath) {
 
 
 void ScanDirectory(){
-
-	using namespace DynamicDataStructures;
 
 	GetCurrentDir(currentPath, sizeof(currentPath));
 	const char* basePath = currentPath;
@@ -248,12 +248,12 @@ void SetDrive(std::string UserCommand){
 
 
 void CopyFiles(std::string UserCommand){
-	size_t pos = UserCommand.find("c ");
+	size_t pos = UserCommand.find("copy ");
 
 	if(pos != std::string::npos) {
 
 		GetCurrentDir(currentPath, sizeof(currentPath));
-		FileBuffer = UserCommand.substr(2);
+		FileBuffer = UserCommand.substr(5);
 
 		std::string CurrentPathString(currentPath);
 		CurrentPathString = CurrentPathString + "\\" + FileBuffer;
@@ -262,7 +262,7 @@ void CopyFiles(std::string UserCommand){
 	} 
 	else{
 
-		if(UserCommand.find("p") != std::string::npos && (!SourceFilePath.empty())){
+		if(UserCommand.find("paste") != std::string::npos && (!SourceFilePath.empty())){
 
 			PasteFile(SourceFilePath, FileBuffer);
 		}
@@ -325,7 +325,7 @@ void PasteFile(std::string SourceFilePath, std::string FileBuff){
    	sourceFile.close();
 	destinationFile.close();
 
-    std::cout << "File copy operation completed" << '\n';
+    std::cout << "File Copy-Paste operation completed" << '\n';
     return ;
 }
 
@@ -422,9 +422,11 @@ void ReadDirectory(){
 
 			if(isDirectory(fullPath.c_str())){
 				ColorizeText(std::string(entry->d_name) + "/", "32");
+				std::cout << '\n';
 
 			} else{
 				ColorizeText(std::string(entry->d_name), "36");
+				std::cout << '\n';
 			}
 		}
 	}

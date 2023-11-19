@@ -56,7 +56,7 @@ int main(){
 		        SetDrive(UserCommand);
 		        std::cout << '\n';
 
-		    } else if (UserCommand.find("c ") == 0 || UserCommand.find("p") == 0) {
+		    } else if (UserCommand.find("copy ") == 0 || UserCommand.find("paste") == 0) {
 		        CopyFiles(UserCommand);
 		        std::cout << '\n';
 
@@ -72,7 +72,7 @@ int main(){
 		    	ReadDirectory();
 		    	std::cout << '\n';
 
-		    } else{
+		    } else {
 		    	std::cout << "Invalid Command!!\n\n";
 		    }
 		}		

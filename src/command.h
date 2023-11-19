@@ -12,6 +12,7 @@
 #include <dirent.h>
 #include <cstring>
 #include <chrono>
+#include <mutex>
 #include <thread>
 #include <sys/stat.h>
 #include <cctype>
@@ -51,6 +52,7 @@ void EraseDirectory(std::string);
 void EraseDirectoryRecursively(const char*);
 void ReadDirectory();
 void ColorizeText(const std::string&, const std::string&);
+
 
 #endif
 
