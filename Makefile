@@ -1,4 +1,5 @@
 CC = g++
+# For C++17 version
 CFLAGS = -Wall -std=c++17
 
 SRC_DIR = src
