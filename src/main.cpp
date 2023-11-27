@@ -10,6 +10,7 @@ int main(){
 	while(loop_control){
 
 		if(GetCurrentDir(currentDir, sizeof(currentDir)) != nullptr){
+			
 			std::cout << currentDir << "~>";
 		}
 		
