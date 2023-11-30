@@ -1,5 +1,5 @@
 # Push in the repo
 
 git add .
-git commit -m "fixed a bug C:"
+git commit -m "new feature implemented rename functionality"
 git push origin main

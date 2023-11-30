@@ -52,7 +52,8 @@ void EraseDirectory(std::string);
 void EraseDirectoryRecursively(const char*);
 void ReadDirectory();
 void ColorizeText(const std::string&, const std::string&);
-
+void Rename(std::string);
+void help(void);
 
 #endif
 

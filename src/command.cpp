@@ -38,9 +38,6 @@ bool isDirectory(const char* path) {
 }
 
 
-
-
-
 void listOfFilesAndDirectories(const char* basePath) {
     // Open the directory
     using namespace DynamicDataStructures;
@@ -432,4 +429,36 @@ void ReadDirectory(){
 	}
 	std::cout << '\n';
 	closedir(dir);
+}
+
+void help(){
+
+}
+
+void Rename(std::string UserCommand){
+	
+	size_t pos = UserCommand.find("rename ");
+
+	//string old_name, new_name;
+	if(pos != std::string::npos){
+
+		std::string RenameFiles =  UserCommand.substr(pos + 7);
+
+		size_t spacePos = RenameFiles.find(" ");
+		if(spacePos != std::string::npos){
+
+            std::string old_name = RenameFiles.substr(0, spacePos);
+            std::string new_name = RenameFiles.substr(spacePos + 1);
+
+		    if (rename(old_name.c_str(), new_name.c_str()) == 0) {
+
+		    	std::cout << "File renamed successfully.\n";
+		    } else {
+
+		        std::cout << "Error renaming file\n";
+		        //exit(EXIT_FAILURE);
+		    }	
+		}
+	
+	}
 }

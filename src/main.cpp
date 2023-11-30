@@ -73,8 +73,12 @@ int main(){
 		    	ReadDirectory();
 		    	std::cout << '\n';
 
+		    } else if (UserCommand.find("rename ") == 0) {
+		    	Rename(UserCommand);
+		    	std::cout << '\n';		
 		    } else {
 		    	std::cout << "Invalid Command!!\n\n";
+
 		    }
 		}		
 	}
