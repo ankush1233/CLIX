@@ -98,10 +98,12 @@ void BackToDirectory() {
 	
 	if (LastBackSlash != std::string::npos) {
 		std::string newPath = StringConversionOfPath.substr(0, LastBackSlash);
+		
 		if(newPath.size() == 2 && newPath[1] == ':'){
+			
 			newPath = newPath + "\\";
-			//chdir(newPath.c_str());
 		}
+		
 		chdir(newPath.c_str());
 	}
 	return ;

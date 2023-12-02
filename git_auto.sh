@@ -1,5 +1,5 @@
 # Push in the repo
 
 git add .
-git commit -m "new feature implemented rename functionality"
+git commit -m "removed some trash"
 git push origin main
