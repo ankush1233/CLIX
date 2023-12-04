@@ -464,3 +464,32 @@ void Rename(std::string UserCommand){
 	
 	}
 }
+
+
+void ShowWin(){
+	GetCurrentDir(currentPath, sizeof(currentPath));
+	
+	size_t size = mbstowcs(nullptr, currentPath, 0);
+    if (size == static_cast<size_t>(-1)) {
+
+    }
+
+    // Allocate memory for the wide string
+    wchar_t* wideString = new wchar_t[size + 1];
+
+    // Convert to wide string
+    mbstowcs(wideString, currentPath, size + 1);
+    
+
+    // Open the directory using ShellExecuteW (Unicode version)
+    HINSTANCE result = ShellExecuteW(NULL, L"open", wideString, NULL, NULL, SW_SHOWNORMAL);
+
+    // Check the result
+    if ((intptr_t)result <= 32) {
+    	std::cout << "Unable to Open Window\n";
+    }
+
+    delete[] wideString;
+
+    return ;
+}

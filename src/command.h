@@ -22,6 +22,7 @@
 #include <fstream>
 #include <sstream>
 #include <unordered_set>
+#include <cwchar>
 
 #ifndef _WIN32 //For Windows Like Systems
 #include <windows.h>
@@ -54,6 +55,6 @@ void ReadDirectory();
 void ColorizeText(const std::string&, const std::string&);
 void Rename(std::string);
 void help(void);
-
+void ShowWin(void);
 #endif
 
