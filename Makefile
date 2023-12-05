@@ -14,7 +14,7 @@ OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRC_FILES))
 all: build_dir run
 
 build_dir:
-	mkdir -p $(BUILD_DIR)
+	mkdir $(BUILD_DIR)
 
 run: $(OBJ_FILES)
 	$(CC) $(CFLAGS) $^ -o $(BUILD_DIR)/myprogram.exe
