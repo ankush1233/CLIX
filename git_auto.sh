@@ -1,5 +1,5 @@
 # Push in the repo
 
 git add .
-git commit -m "new showwin feature"
+git commit -m "changed -p"
 git push origin main
